@@ -6,6 +6,7 @@ import icon02 from '../../assets/icons/icon02.svg';
 import icon03 from '../../assets/icons/icon03.svg';
 import icon04 from '../../assets/icons/icon04.svg';
 import successIcon from '../../assets/icons/successIcon.svg';
+import brandLogo from '../../assets/icons/brandLogo.svg';
 
 const Home = () => {
   const [selected, setSelected] = useState([]);
@@ -15,12 +16,20 @@ const Home = () => {
   const [hiddenFrame, setHiddenFrame] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [isValid, setIsValid] = useState(true);
   const [message, setMessage] = useState('');
   const [validationError, setValidationError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const delayCycle = [10, 4, 2];
   const [delayIndex, setDelayIndex] = useState(0);
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const nameRegex = /^[a-zA-Z\s]+$/;
+
+  const validateEmail = (value) => {
+    return emailRegex.test(value);
+  };
 
   const cardContext = [
     { id: 'design', icon: icon01, header: 'Design' },
@@ -29,29 +38,24 @@ const Home = () => {
     { id: 'iot', icon: icon04, header: 'IOT' },
   ];
 
-  // Loop button delay
   useEffect(() => {
     const timer = setTimeout(() => {
       setDelayIndex((prev) => (prev + 1) % delayCycle.length);
     }, delayCycle[delayIndex] * 1000);
-
     return () => clearTimeout(timer);
   }, [delayIndex]);
 
-  // Show cards after delay
   useEffect(() => {
     const delay = setTimeout(() => setShowCards(true), 5500);
     return () => clearTimeout(delay);
   }, []);
 
-  // Auto-reset hidden form if no selected services
   useEffect(() => {
     if (hiddenFrame && selected.length === 0) {
       setHiddenFrame(false);
     }
   }, [selected, hiddenFrame]);
 
-  // Clear error when selection is made
   useEffect(() => {
     if (selected.length > 0 && error) setError(false);
   }, [selected, error]);
@@ -74,11 +78,17 @@ const Home = () => {
     }
   };
 
-  const handleSubmit = () => {
-    if (!name || !email || !message) {
-      setValidationError(true);
-    } else {
-      setValidationError(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const validName = nameRegex.test(name.trim());
+    const validEmail = validateEmail(email);
+    const isFormValid = name && email && message && validName && validEmail;
+
+    setIsValid(validEmail);
+    setValidationError(!isFormValid);
+
+    if (isFormValid) {
       setName('');
       setEmail('');
       setMessage('');
@@ -96,27 +106,68 @@ const Home = () => {
     setValidationError(false);
   };
 
+  const [stuck, setStuck] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setStuck(true);
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const screenHeight = window.innerHeight;
+  const yOffset01 = screenHeight * 0.38;
+  const yOffset02 = screenHeight * 0.1;
+
   return (
-    <div className="w-full h-screen bg-[#0A0A0B] flex justify-center items-center overflow-hidden relative">
+    <div className="w-full h-[100vh] bg-[#0A0A0B] flex justify-center items-center overflow-hidden relative">
       {/* Background Spinner */}
       <div
-        className="absolute z-10 w-[1200px] h-[1200px] rounded-full custom-spin translate-y-[600px] blur-3xl"
+        className="absolute z-10 w-[85vw] h-[85vw] rounded-full custom-spin translate-y-[110vh] blur-3xl mix-blend-screen opacity-60 animate-[pulse_8s_ease-in-out_infinite] pointer-events-none"
         style={{
-          background: `conic-gradient(#220208 0deg 115deg, #220208 115deg, #011F2C 125deg 235deg, #011F2C 235deg, #0B0122 245deg 360deg)`
+          background: `
+            radial-gradient(circle at center,
+              rgba(10, 10, 11, 0.05) 60%,
+              rgba(10, 10, 11, 0.25) 75%,
+              rgba(10, 10, 11, 0.9) 100%
+            ),
+            conic-gradient(
+              rgba(34, 2, 8, 0.8) 0deg 50deg,
+              rgba(1, 31, 44, 0.8) 60deg 210deg,
+              rgba(11, 1, 34, 0.8) 220deg 360deg
+            ),
+            radial-gradient(circle at 30% 30%, 
+              rgba(82, 73, 255, 0.2) 0%, 
+              transparent 60%
+            ),
+            radial-gradient(circle at 70% 70%, 
+              rgba(0, 255, 255, 0.15) 0%, 
+              transparent 70%
+            ),
+            radial-gradient(circle at center,
+              rgba(255, 255, 255, 0.03) 0%,
+              rgba(255, 255, 255, 0.01) 40%,
+              transparent 100%
+            ),
+            radial-gradient(circle at 40% 60%,
+              rgba(100, 255, 255, 0.03) 0%,
+              transparent 80%
+            )
+          `,
+          backgroundBlendMode: 'screen, screen, lighten, lighten, screen, lighten',
         }}
       />
 
       {/* Main Container */}
       <div className="w-[1440px] h-[100vh] flex flex-col justify-center items-center text-[#EDEDED] absolute z-20">
-        {/* Heading */}
-        <motion.h1
-          initial={{ y: 0, scale: 2 }}
-          animate={{ y: -290, scale: 1 }}
-          transition={{ delay: 2, duration: 1, ease: 'easeInOut' }}
-          className="text-[48px] font-normal font-['Gugi'] absolute text-center"
-        >
-          SY<div className="text-[24px]">DART TECH</div>
-        </motion.h1>
+        {/* Brand Logo */}
+        <motion.img
+          initial={{ y: 0, scale: 3 }}
+          animate={{ y: -yOffset01, scale: 1 }}
+          transition={{ delay: 1.5, duration: 1.5, ease: 'easeInOut' }}
+          src={brandLogo}
+          className={`w-[250px] h-[110px] absolute`}
+        />
 
         {/* Intro Section */}
         {!hiddenFrame && (
@@ -150,30 +201,27 @@ const Home = () => {
                 return (
                   <motion.div
                     key={card.id}
-                    initial={{ x: -1500, opacity: 0 }}
+                    initial={{ x: -1800, opacity: 0 }}
                     animate={showCards ? {
                       x: 0,
                       opacity: 1,
-                      transition: {
-                        delay: reverseIndex,
-                        type: 'spring',
-                        stiffness: 110
-                      }
+                      transition: { delay: reverseIndex }
                     } : {}}
+                    transition={{ ease: 'easeInOut' }}
                     onClick={() => handleSelected(card.id)}
-                    className={`relative flex items-center gap-3 px-6 h-[75px] rounded-2xl cursor-pointer overflow-hidden transition-all duration-300 z-10 ${isSelected ? 'border border-[#5249FF] bg-[#10101a]' : 'bg-gradient-to-r from-[#1A1A1A]/99 to-[#1A1A1A]/20'}`}
+                    className={`relative flex items-center gap-3 px-6 h-[75px] rounded-2xl cursor-pointer overflow-hidden transition-all duration-1000 ease-in-out z-10 ${isSelected ? 'border border-[#5249FF] bg-[#10101a]' : 'bg-gradient-to-r from-[#EDEDED]/12 via-[#EDEDED]/7 to-[#1A1A1A]/3 border-0 border-[#5249FF]/1'}`}
                     whileHover={{ scale: 1.03 }}
                   >
                     {highlightError && (
                       <motion.div
                         initial={{ opacity: 1 }}
                         animate={{ opacity: 0 }}
-                        transition={{ duration: 1.5 }}
-                        className="absolute inset-0 rounded-2xl border-2 border-[#5F8AFF] z-0"
+                        transition={{ duration: 3, ease: 'easeInOut' }}
+                        className="absolute inset-0 rounded-2xl border-2 border-[#5F8AFF] bg-gradient-to-r from-[#EDEDED]/12 to-[#181733]/99 z-0 transition-all duration-800 ease-in-out"
                       />
                     )}
-                    <div className={`z-10 w-5 h-5 rounded-full border-2 flex items-center justify-center ${isSelected ? 'border-[#6B4EFF]' : 'border-white'}`}>
-                      {isSelected && <div className="w-3 h-3 rounded-full bg-[#5249FF]" />}
+                    <div className={`z-10 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-700 ease-in-out ${isSelected ? 'border-[#6B4EFF]' : 'border-white'}`}>
+                      {isSelected && <div className="w-[8px] h-[8px] rounded-full bg-[#5249FF] transition-all duration-700 ease-in-out" />}
                     </div>
                     <img src={card.icon} alt={card.header} className="w-6 h-6 z-10" />
                     <span className="text-white text-[20px] font-medium z-10">{card.header}</span>
@@ -185,8 +233,8 @@ const Home = () => {
             {error && (
               <motion.h2
                 initial={{ x: 450, y: 400 }}
-                animate={{ x: 450, y: 0 }}
-                transition={{ duration: 0.5 }}
+                animate={{ x: 450, y: 25 }}
+                transition={{ duration: 0.75 }}
                 className="font-['Geist'] text-[20px] font-normal text-[#5F8AFF] mt-6 translate-y-[50px]"
               >
                 Kindly select the service you are looking for
@@ -204,13 +252,13 @@ const Home = () => {
         {/* Form Section */}
         {hiddenFrame && !error && !submitted && (
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="w-full flex justify-center items-center z-30"
+            initial={{ opacity: 0, y: 80 }}
+            animate={{ opacity: 1, y: -10 }}
+            transition={{ duration: 1, delay: 0.5, ease:'easeInOut' }}
+            className="w-full flex justify-center items-center z-30 translate-y-[100px]"
           >
             <div className="w-full text-white flex flex-col items-center gap-8">
-              <div className="w-full flex flex-wrap justify-center gap-6 mt-[80px]">
+              <div className="w-full flex flex-wrap justify-center gap-6 ">
                 {cardContext.map((card) => {
                   const isSelected = selected.includes(card.id);
                   if (!isSelected) return null;
@@ -218,7 +266,7 @@ const Home = () => {
                     <div
                       key={card.id}
                       onClick={() => handleSelected(card.id)}
-                      className="relative flex items-center gap-3 pl-6 pr-10 py-3 h-[75px] rounded-2xl cursor-pointer bg-[#181733] border border-[#5249FF] transition-all duration-300"
+                      className="relative flex items-center gap-3 pl-6 pr-10 py-3 h-[75px] rounded-2xl cursor-pointer bg-[#181733] border border-[#5249FF]"
                     >
                       <div
                         onClick={(e) => {
@@ -234,13 +282,23 @@ const Home = () => {
                 })}
               </div>
 
-              <div className="w-[750px] flex flex-col gap-6">
-                <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Good Name" className="w-full bg-transparent border-b border-white/30 placeholder-white/70 px-2 py-3 outline-none text-white" />
-                <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your Email ID" className="w-full bg-transparent border-b border-white/30 placeholder-white/70 px-2 py-3 outline-none text-white" />
-                <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={4} placeholder="Your Message" className="w-full bg-transparent border-b border-white/30 placeholder-white/70 px-2 py-3 outline-none text-white resize-none" />
+              <div className="w-[750px] flex flex-col gap-6 text-[24px] font-normal font-['Geist']">
+                <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Good Name" className="w-full bg-transparent border-b border-white/30 placeholder-[#A7A7A7] focus:placeholder-[#A7A7A7]/40 px-2 py-3 outline-none text-[#F9F9F9]" />
+                {!nameRegex.test(name.trim()) && name && (
+                  <p className="text-[16px] text-center font-normal text-[#932426] translate-y-[-20px] translate-x-[-185px]">
+                    Name should contain only letters and spaces
+                  </p>
+                )}
+                <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your Email ID" className="w-full bg-transparent border-b border-white/30 placeholder-[#A7A7A7] focus:placeholder-[#A7A7A7]/40 px-2 py-3 outline-none text-[#F9F9F9]" />
+                {!isValid && email && (
+                  <p className="text-[16px] text-center font-normal text-[#932426] translate-y-[-20px] translate-x-[-275px]">
+                    Enter a valid email id
+                  </p>
+                )}
+                <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={4} placeholder="Your Message" className="w-full bg-transparent border-b border-[#A7A7A7] placeholder-white/70 focus:placeholder-[#A7A7A7]/40 px-2 py-3 outline-none text-[#F9F9F9] resize-none" />
               </div>
 
-              <p className={`text-[20px] text-center font-normal ${validationError ? 'text-red-600 translate-y-[-20px]' : 'text-red-600/0'}`}>
+              <p className={`text-[16px] text-center font-normal ${validationError ? 'text-[#932426] translate-y-[-20px] translate-x-[-275px]' : 'text-red-600/0'}`}>
                 All fields are mandatory
               </p>
             </div>
@@ -249,30 +307,45 @@ const Home = () => {
 
         {/* Success Message */}
         {submitted && (
-          <div className="w-[750px] mx-auto translate-y-[10px]">
+          <div className="w-[750px] mx-auto translate-y-[50px]">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="flex flex-col justify-center items-center">
               <h1 className="text-white font-semibold text-[42px] text-center">Thank You!</h1>
-              <h1 className="text-white font-semibold text-[42px] text-center">We have your Enquiry</h1>
-              <motion.img src={successIcon} className="w-[300px] h-[300px] mt-[20px]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }} />
+              <h1 className="text-white font-semibold text-[42px] text-center translate-y-[-25px]">We have your Enquiry</h1>
+              <motion.img src={successIcon} className="w-[300px] h-[300px] mt-[10px]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2, ease:'easeInOut' }} />
             </motion.div>
           </div>
         )}
 
-        {/* Fixed Bottom Button */}
-        <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 z-50">
+        {/* Bottom Button */}
+        <div className="mx-auto translate-y-[12vh] transition-all delay-1000 ease-in-out">
           <motion.div
             initial={{ y: 300, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: delayCycle[delayIndex], duration: 1 }}
-            className="h-[70px] bg-[#EDEDED]/10 rounded-full flex justify-center items-center cursor-pointer px-8"
-            onClick={() => {
+            transition={{ delay: delayCycle[delayIndex], duration: 1, ease:'easeInOut' }}
+            onClick={(e) => {
               if (!hiddenFrame && !submitted) handleEnquire();
-              else if (hiddenFrame && !submitted) handleSubmit();
+              else if (hiddenFrame && !submitted) handleSubmit(e);
               else if (submitted) handleSubmitAnotherResponse();
             }}
+            className="relative h-[70px] rounded-full flex justify-center items-center cursor-pointer px-8 overflow-hidden transition-all delay-1000 ease-in-out"
           >
-            <h1 className="font-['Geist'] text-[20px] font-normal text-[#EDEDED]">
-              {!hiddenFrame && !submitted ? 'Enquire now' : hiddenFrame && !submitted ? 'Submit' : 'Submit another response'}
+            <div
+              className="absolute inset-0 blur-md rounded-full transition-all delay-1000 ease-in-out"
+              style={{
+                background: `linear-gradient(135deg, 
+                  rgba(1, 23, 167, 0.2),
+                  rgba(6, 127, 180, 0.2),
+                  rgba(253, 6, 58, 0.2)
+                )`
+              }}
+            ></div>
+
+            <h1 className="relative font-['Geist'] text-[20px] font-normal text-[#EDEDED] z-10 transition-all delay-1000 ease-in-out">
+              {!hiddenFrame && !submitted
+                ? 'Enquire now'
+                : hiddenFrame && !submitted
+                ? 'Submit'
+                : 'Submit another response'}
             </h1>
           </motion.div>
         </div>
