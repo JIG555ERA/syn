@@ -21,7 +21,7 @@ const Home = () => {
   const [validationError, setValidationError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const delayCycle = [10, 4, 2];
+  const delayCycle = [9, 4, 2];
   const [delayIndex, setDelayIndex] = useState(0);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -120,7 +120,7 @@ const Home = () => {
   const yOffset02 = screenHeight * 0.1;
 
   return (
-    <div className="w-full h-[100vh] bg-[#0A0A0B] flex justify-center items-center overflow-hidden relative">
+    <div className="w-full h-[100vh] bg-[#181818] flex justify-center items-center overflow-hidden relative">
       {/* Background Spinner */}
       <div
         className="absolute z-10 w-[85vw] h-[85vw] rounded-full custom-spin translate-y-[110vh] blur-3xl mix-blend-screen opacity-60 animate-[pulse_8s_ease-in-out_infinite] pointer-events-none"
@@ -162,7 +162,7 @@ const Home = () => {
       <div className="w-[1440px] h-[100vh] flex flex-col justify-center items-center text-[#EDEDED] absolute z-20">
         {/* Brand Logo */}
         <motion.img
-          initial={{ y: 0, scale: 3 }}
+          initial={{ y: 0, scale: 3.5 }}
           animate={{ y: -yOffset01, scale: 1 }}
           transition={{ delay: 1.5, duration: 1.5, ease: 'easeInOut' }}
           src={brandLogo}
@@ -321,7 +321,7 @@ const Home = () => {
           <motion.div
             initial={{ y: 300, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: delayCycle[delayIndex], duration: 1, ease:'easeInOut' }}
+            transition={{ delay: delayCycle[delayIndex], duration: 2, ease:'easeInOut' }}
             onClick={(e) => {
               if (!hiddenFrame && !submitted) handleEnquire();
               else if (hiddenFrame && !submitted) handleSubmit(e);
