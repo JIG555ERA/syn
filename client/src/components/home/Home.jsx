@@ -313,20 +313,20 @@ const Home = () => {
               <div className="2xl:w-[750px] w-[90vw] flex flex-col gap-6 2xl:text-[24px] text-[16px] font-normal font-['Geist']">
                 <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Good Name" className="w-full bg-transparent border-b border-white/30 placeholder-[#A7A7A7] focus:placeholder-[#A7A7A7]/40 px-2 py-3 outline-none text-[#F9F9F9]" />
                 {!nameRegex.test(name.trim()) && name && (
-                  <p className="text-[16px] text-center font-normal text-[#932426] 2xl:translate-y-[-20px] 2xl:translate-x-[-185px]">
+                  <p className="2xl:text-[16px] text-[12px] text-center font-normal text-[#932426] 2xl:translate-y-[-20px] 2xl:translate-x-[-185px]">
                     Name should contain only letters and spaces
                   </p>
                 )}
                 <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your Email ID" className="w-full bg-transparent border-b border-white/30 placeholder-[#A7A7A7] focus:placeholder-[#A7A7A7]/40 px-2 py-3 outline-none text-[#F9F9F9]" />
                 {!isValid && email && (
-                  <p className="text-[16px] text-center font-normal text-[#932426] 2xl:translate-y-[-20px] 2xl:translate-x-[-275px]">
+                  <p className="2xl:text-[16px] text-[12px] text-center font-normal text-[#932426] 2xl:translate-y-[-20px] 2xl:translate-x-[-275px]">
                     Enter a valid email id
                   </p>
                 )}
                 <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={4} placeholder="Your Message" className="w-full bg-transparent border-b border-[#A7A7A7] placeholder-white/70 focus:placeholder-[#A7A7A7]/40 px-2 py-3 outline-none text-[#F9F9F9] resize-none" />
               </div>
 
-              <p className={`text-[16px] text-center font-normal ${validationError ? 'text-[#932426] 2xl:translate-y-[-20px] 2xl:translate-x-[-275px]' : 'text-red-600/0'}`}>
+              <p className={`2xl:text-[16px] text-[12px] text-center font-normal ${validationError ? 'text-[#932426] 2xl:translate-y-[-20px] 2xl:translate-x-[-275px]' : 'text-red-600/0'}`}>
                 All fields are mandatory
               </p>
             </div>
