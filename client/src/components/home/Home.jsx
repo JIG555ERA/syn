@@ -263,7 +263,7 @@ const Home = () => {
                 initial={{ x: 450, y: 400 }}
                 animate={{ x: 450, y: 25 }}
                 transition={{ duration: 0.75 }}
-                className="font-['Geist'] text-[20px] font-normal text-[#5F8AFF] mt-6 translate-y-[50px]"
+                className="font-['Geist'] 2xl:text-[20px] text-[14px] font-normal text-[#5F8AFF] mt-6 2xl:translate-y-[50px] 2xl:translate-x-[0px] translate-x-[-430px] translate-y-[30px]"
               >
                 Kindly select the service you are looking for
               </motion.h2>
