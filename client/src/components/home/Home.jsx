@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import emailjs from '@emailjs/browser'
+emailjs.init('thBChfHFUlNiKnO2Q')
 import { motion } from 'framer-motion';
 import './Home.css';
 import icon01 from '../../assets/icons/icon01.svg';
@@ -89,12 +91,38 @@ const Home = () => {
     setValidationError(!isFormValid);
 
     if (isFormValid) {
-      setName('');
-      setEmail('');
-      setMessage('');
-      setSubmitted(true);
+      const templateParams = {
+        name,
+        email,
+        message,
+        selectedServices: selected.join(', ')
+      };
+
+      emailjs.send(
+      "service_h9dzxdd",         // ✅ service ID
+      "template_lpdommr",        // ✅ updated template ID
+      {
+        title: "Service Enquiry",               // Subject
+        name: name,                             // From user input
+        email: email,                           // From user input
+        selectedServices: selected.join(', '),  // Checkbox list
+        message: message                        // User message
+      }
+      )
+      .then((res) => {
+        console.log("✅ Email sent:", res.status);
+        setName('');
+        setEmail('');
+        setMessage('');
+        setSubmitted(true);
+      })
+      .catch((err) => {
+        console.error("❌ Failed to send email:", err);
+      });
     }
   };
+
+
 
   const handleSubmitAnotherResponse = () => {
     setSubmitted(false);
