@@ -187,14 +187,14 @@ const Home = () => {
       />
 
       {/* Main Container */}
-      <div className="w-[1440px] h-[100vh] flex flex-col justify-center items-center text-[#EDEDED] absolute z-20">
+      <div className="2xl:w-[1440px] 2xl:h-[100vh] w-[100vw] flex flex-col justify-center items-center text-[#EDEDED] absolute z-20">
         {/* Brand Logo */}
         <motion.img
-          initial={{ y: 0, scale: 3.5 }}
+          initial={{ y: 0, scale: 2.5 }}
           animate={{ y: -yOffset01, scale: 1 }}
           transition={{ delay: 1.5, duration: 1.5, ease: 'easeInOut' }}
           src={brandLogo}
-          className={`w-[250px] h-[110px] absolute`}
+          className={`2xl:w-[250px] w-[160px] 2xl:h-[110px] h-[70px] absolute`}
         />
 
         {/* Intro Section */}
@@ -204,23 +204,23 @@ const Home = () => {
               initial={{ y: -300, opacity: 0 }}
               animate={{ y: -25, opacity: 1 }}
               transition={{ delay: 4, duration: 1, ease: 'easeInOut' }}
-              className="text-[54px] font-['Geist'] font-semibold text-center"
+              className="2xl:text-[54px] text-[28px] font-['Geist'] font-semibold text-center 2xl:translate-y-[0px] translate-y-[70px]"
             >
-              Where All technological solutions arrives
+              Where All technological <span className="block sm:hidden" /> solutions arrives
             </motion.h2>
 
             <motion.h3
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 50, opacity: 1 }}
               transition={{ delay: 4.8, duration: 0.8, ease: 'easeInOut' }}
-              className="text-[24px] font-['Geist'] font-semibold text-center"
+              className="2xl:text-[24px] text-[18px] font-['Geist'] font-semibold text-center 2xl:translate-y-[0px] translate-y-[25px]"
             >
               Let us know what we can bring for you
             </motion.h3>
 
             <motion.div
               animate={showCards ? 'visible' : 'hidden'}
-              className="w-[1300px] translate-y-[50px] h-[75px] flex justify-between mt-10"
+              className="2xl:w-[1300px] 2xl:translate-y-[50px] translate-y-[60px] 2xl:h-[75px] flex 2xl:flex-row flex-col justify-between mt-10  gap-4 "
             >
               {cardContext.map((card, i) => {
                 const isSelected = selected.includes(card.id);
@@ -237,7 +237,7 @@ const Home = () => {
                     } : {}}
                     transition={{ ease: 'easeInOut' }}
                     onClick={() => handleSelected(card.id)}
-                    className={`relative flex items-center gap-3 px-6 h-[75px] rounded-2xl cursor-pointer overflow-hidden transition-all duration-1000 ease-in-out z-10 ${isSelected ? 'border border-[#5249FF] bg-[#10101a]' : 'bg-gradient-to-r from-[#EDEDED]/12 via-[#EDEDED]/7 to-[#1A1A1A]/3 border-0 border-[#5249FF]/1'}`}
+                    className={`relative flex items-center gap-3 px-6 2xl:h-[75px] h-[53px] rounded-2xl cursor-pointer overflow-hidden transition-all duration-1000 ease-in-out z-10 ${isSelected ? 'border border-[#5249FF] bg-[#10101a]' : 'bg-gradient-to-r from-[#EDEDED]/12 via-[#EDEDED]/7 to-[#1A1A1A]/3 border-0 border-[#5249FF]/1'}`}
                     whileHover={{ scale: 1.03 }}
                   >
                     {highlightError && (
@@ -294,7 +294,7 @@ const Home = () => {
                     <div
                       key={card.id}
                       onClick={() => handleSelected(card.id)}
-                      className="relative flex items-center gap-3 pl-6 pr-10 py-3 h-[75px] rounded-2xl cursor-pointer bg-[#181733] border border-[#5249FF]"
+                      className="relative flex items-center gap-3 pl-6 pr-10 py-3 2xl:h-[75px] h-[53px] rounded-2xl cursor-pointer bg-[#181733] border border-[#5249FF]"
                     >
                       <div
                         onClick={(e) => {
@@ -310,23 +310,23 @@ const Home = () => {
                 })}
               </div>
 
-              <div className="w-[750px] flex flex-col gap-6 text-[24px] font-normal font-['Geist']">
+              <div className="2xl:w-[750px] w-[90vw] flex flex-col gap-6 2xl:text-[24px] text-[16px] font-normal font-['Geist']">
                 <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Good Name" className="w-full bg-transparent border-b border-white/30 placeholder-[#A7A7A7] focus:placeholder-[#A7A7A7]/40 px-2 py-3 outline-none text-[#F9F9F9]" />
                 {!nameRegex.test(name.trim()) && name && (
-                  <p className="text-[16px] text-center font-normal text-[#932426] translate-y-[-20px] translate-x-[-185px]">
+                  <p className="text-[16px] text-center font-normal text-[#932426] 2xl:translate-y-[-20px] 2xl:translate-x-[-185px]">
                     Name should contain only letters and spaces
                   </p>
                 )}
                 <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your Email ID" className="w-full bg-transparent border-b border-white/30 placeholder-[#A7A7A7] focus:placeholder-[#A7A7A7]/40 px-2 py-3 outline-none text-[#F9F9F9]" />
                 {!isValid && email && (
-                  <p className="text-[16px] text-center font-normal text-[#932426] translate-y-[-20px] translate-x-[-275px]">
+                  <p className="text-[16px] text-center font-normal text-[#932426] 2xl:translate-y-[-20px] 2xl:translate-x-[-275px]">
                     Enter a valid email id
                   </p>
                 )}
                 <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={4} placeholder="Your Message" className="w-full bg-transparent border-b border-[#A7A7A7] placeholder-white/70 focus:placeholder-[#A7A7A7]/40 px-2 py-3 outline-none text-[#F9F9F9] resize-none" />
               </div>
 
-              <p className={`text-[16px] text-center font-normal ${validationError ? 'text-[#932426] translate-y-[-20px] translate-x-[-275px]' : 'text-red-600/0'}`}>
+              <p className={`text-[16px] text-center font-normal ${validationError ? 'text-[#932426] 2xl:translate-y-[-20px] 2xl:translate-x-[-275px]' : 'text-red-600/0'}`}>
                 All fields are mandatory
               </p>
             </div>
@@ -335,17 +335,17 @@ const Home = () => {
 
         {/* Success Message */}
         {submitted && (
-          <div className="w-[750px] mx-auto translate-y-[50px]">
+          <div className="2xl:w-[750px] w-[90vw] mx-auto 2xl;translate-y-[50px]">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="flex flex-col justify-center items-center">
-              <h1 className="text-white font-semibold text-[42px] text-center">Thank You!</h1>
-              <h1 className="text-white font-semibold text-[42px] text-center translate-y-[-25px]">We have your Enquiry</h1>
-              <motion.img src={successIcon} className="w-[300px] h-[300px] mt-[10px]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2, ease:'easeInOut' }} />
+              <h1 className="text-white font-semibold 2xl:text-[42px] text-[32px] text-center">Thank You!</h1>
+              <h1 className="text-white font-semibold 2xl:text-[42px] text-[32px] text-center 2xl;translate-y-[-25px]">We have your Enquiry</h1>
+              <motion.img src={successIcon} className="2xl:w-[300px] 2xl:h-[300px] w-[190px] h-[190px] 2xl:mt-[10px] mt-[40px]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2, ease:'easeInOut' }} />
             </motion.div>
           </div>
         )}
 
         {/* Bottom Button */}
-        <div className="mx-auto translate-y-[12vh] transition-all delay-1000 ease-in-out">
+        <div className="mx-auto translate-y-[10vh] transition-all delay-1000 ease-in-out">
           <motion.div
             initial={{ y: 300, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -355,7 +355,7 @@ const Home = () => {
               else if (hiddenFrame && !submitted) handleSubmit(e);
               else if (submitted) handleSubmitAnotherResponse();
             }}
-            className="relative h-[70px] rounded-full flex justify-center items-center cursor-pointer px-8 overflow-hidden transition-all delay-1000 ease-in-out"
+            className="relative 2xl:h-[70px] h-[53px] 2xl:w-auto w-[90vw] rounded-full flex justify-center items-center cursor-pointer px-8 overflow-hidden transition-all delay-1000 ease-in-out"
           >
             <div
               className="absolute inset-0 blur-md rounded-full transition-all delay-1000 ease-in-out"
