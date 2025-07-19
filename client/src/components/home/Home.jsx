@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify'
 import emailjs from '@emailjs/browser'
 emailjs.init('thBChfHFUlNiKnO2Q')
 import { motion } from 'framer-motion';
@@ -122,7 +123,26 @@ const Home = () => {
     }
   };
 
+  const [isMobile, setIsMobile] = useState(false);
 
+  // Detect screen width on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // Tailwind's `md` breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Toast only on mobile
+  useEffect(() => {
+    if (error && isMobile) {
+      toast.error('Kindly select the service you are looking for');
+    }
+  }, [error, isMobile]);
 
   const handleSubmitAnotherResponse = () => {
     setSubmitted(false);
@@ -139,13 +159,25 @@ const Home = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setStuck(true);
-    }, 3000);
+    }, 2000);
     return () => clearTimeout(timeout);
   }, []);
 
   const screenHeight = window.innerHeight;
   const yOffset01 = screenHeight * 0.38;
   const yOffset02 = screenHeight * 0.1;
+
+  useEffect(() => {
+    if (error && isMobile) {
+      toast.warn('Kindly select the service you are looking for', {
+        position: 'top-center',
+        autoClose: 2000,
+        theme: 'colored',
+        hideProgressBar: true,
+        toastId: 'select-service-warning',
+      });
+    }
+  }, [error, isMobile]);
 
   return (
     <div className="w-full h-[100vh] bg-[#181818] flex justify-center items-center overflow-hidden relative">
@@ -204,7 +236,7 @@ const Home = () => {
               initial={{ y: -300, opacity: 0 }}
               animate={{ y: -25, opacity: 1 }}
               transition={{ delay: 3, duration: 1, ease: 'easeInOut' }}
-              className="2xl:text-[54px] text-[24px] font-['Geist'] font-semibold text-center 2xl:translate-y-[0px] translate-y-[70px]"
+              className="2xl:text-[54px] text-[24px] font-['Geist'] font-semibold text-center 2xl:translate-y-[0px] translate-y-[50px]"
             >
               All Technological Solutions 
             </motion.h2>
@@ -213,14 +245,14 @@ const Home = () => {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 50, opacity: 1 }}
               transition={{ delay: 4, duration: 0.8, ease: 'easeInOut' }}
-              className="2xl:text-[24px] text-[18px] font-['Geist'] font-semibold text-center 2xl:translate-y-[0px] translate-y-[25px]"
+              className="2xl:text-[24px] text-[18px] font-['Geist'] font-semibold text-center 2xl:translate-y-[0px] translate-y-[5px]"
             >
               Let us know what we can bring for you
             </motion.h3>
 
             <motion.div
               animate={showCards ? 'visible' : 'hidden'}
-              className="2xl:w-[1300px] 2xl:translate-y-[50px] translate-y-[60px] 2xl:h-[75px] flex 2xl:flex-row flex-col justify-between mt-10  gap-4 "
+              className="2xl:w-[1300px] 2xl:translate-y-[50px] translate-y-[40px] 2xl:h-[75px] flex 2xl:flex-row flex-col justify-between mt-10  gap-4 "
             >
               {cardContext.map((card, i) => {
                 const isSelected = selected.includes(card.id);
@@ -258,18 +290,18 @@ const Home = () => {
               })}
             </motion.div>
 
-            {error && (
+            {error && !isMobile && (
               <motion.h2
                 initial={{ x: 450, y: 400 }}
                 animate={{ x: 450, y: 25 }}
                 transition={{ duration: 0.75 }}
-                className="font-['Geist'] 2xl:text-[20px] text-[14px] font-normal text-[#5F8AFF] mt-6 2xl:translate-y-[20px] 2xl:translate-x-[0px] translate-x-[-430px] translate-y-[20px]"
+                className="font-['Geist'] 2xl:text-[20px] text-[14px] font-normal text-[#5F8AFF] mt-6 2xl:translate-y-[35px] 2xl:translate-x-[0px] translate-x-[-430px] translate-y-[20px]"
               >
                 Kindly select the service you are looking for
               </motion.h2>
             )}
-
-            {!error && (
+            
+            {!error && !isMobile && (
               <motion.h2 className="font-['Geist'] text-[20px] font-normal text-white/0 mt-6">
                 Placeholder to avoid layout shift
               </motion.h2>
@@ -345,7 +377,7 @@ const Home = () => {
         )}
 
         {/* Bottom Button */}
-        <div className="mx-auto translate-y-[10vh] transition-all delay-1000 ease-in-out">
+        <div className=" mx-auto translate-y-[10vh] transition-all delay-1000 ease-in-out">
           <motion.div
             initial={{ y: 300, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -356,7 +388,7 @@ const Home = () => {
               else if (submitted) handleSubmitAnotherResponse();
             }}
               className={`relative 2xl:h-[70px] h-[53px] 2xl:w-auto w-[90vw] rounded-full flex justify-center items-center cursor-pointer px-8 overflow-hidden transition-all delay-1000 ease-in-out ${
-                !hiddenFrame && !submitted ? 'translate-y-[-20px]' : ''
+                !hiddenFrame && !submitted ? '2xl:translate-y-[0px] translate-y-[-10px]' : ''
               }`}
           >
             <div
