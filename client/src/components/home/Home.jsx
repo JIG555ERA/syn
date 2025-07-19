@@ -206,7 +206,7 @@ const Home = () => {
               transition={{ delay: 4, duration: 1, ease: 'easeInOut' }}
               className="2xl:text-[54px] text-[28px] font-['Geist'] font-semibold text-center 2xl:translate-y-[0px] translate-y-[70px]"
             >
-              Where All technological <span className="block sm:hidden" /> solutions arrives
+              All technological <span className="block sm:hidden" /> solutions 
             </motion.h2>
 
             <motion.h3
