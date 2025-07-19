@@ -23,7 +23,7 @@ const Home = () => {
   const [validationError, setValidationError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const delayCycle = [8, 4, 2];
+  const delayCycle = [6, 4, 2];
   const [delayIndex, setDelayIndex] = useState(0);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,7 +48,7 @@ const Home = () => {
   }, [delayIndex]);
 
   useEffect(() => {
-    const delay = setTimeout(() => setShowCards(true), 5500);
+    const delay = setTimeout(() => setShowCards(true), 4000);
     return () => clearTimeout(delay);
   }, []);
 
@@ -203,16 +203,16 @@ const Home = () => {
             <motion.h2
               initial={{ y: -300, opacity: 0 }}
               animate={{ y: -25, opacity: 1 }}
-              transition={{ delay: 4, duration: 1, ease: 'easeInOut' }}
-              className="2xl:text-[54px] text-[28px] font-['Geist'] font-semibold text-center 2xl:translate-y-[0px] translate-y-[70px]"
+              transition={{ delay: 3, duration: 1, ease: 'easeInOut' }}
+              className="2xl:text-[54px] text-[24px] font-['Geist'] font-semibold text-center 2xl:translate-y-[0px] translate-y-[70px]"
             >
-              All Technological <span className="block sm:hidden" /> Solutions 
+              All Technological Solutions 
             </motion.h2>
 
             <motion.h3
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 50, opacity: 1 }}
-              transition={{ delay: 4.8, duration: 0.8, ease: 'easeInOut' }}
+              transition={{ delay: 4, duration: 0.8, ease: 'easeInOut' }}
               className="2xl:text-[24px] text-[18px] font-['Geist'] font-semibold text-center 2xl:translate-y-[0px] translate-y-[25px]"
             >
               Let us know what we can bring for you
@@ -244,7 +244,7 @@ const Home = () => {
                       <motion.div
                         initial={{ opacity: 1 }}
                         animate={{ opacity: 0 }}
-                        transition={{ duration: 3, ease: 'easeInOut' }}
+                        transition={{ duration: 2, ease: 'easeInOut' }}
                         className="absolute inset-0 rounded-2xl border-2 border-[#5F8AFF] bg-gradient-to-r from-[#EDEDED]/12 to-[#181733]/99 z-0 transition-all duration-800 ease-in-out"
                       />
                     )}
@@ -263,7 +263,7 @@ const Home = () => {
                 initial={{ x: 450, y: 400 }}
                 animate={{ x: 450, y: 25 }}
                 transition={{ duration: 0.75 }}
-                className="font-['Geist'] 2xl:text-[20px] text-[14px] font-normal text-[#5F8AFF] mt-6 2xl:translate-y-[50px] 2xl:translate-x-[0px] translate-x-[-430px] translate-y-[30px]"
+                className="font-['Geist'] 2xl:text-[20px] text-[14px] font-normal text-[#5F8AFF] mt-6 2xl:translate-y-[20px] 2xl:translate-x-[0px] translate-x-[-430px] translate-y-[20px]"
               >
                 Kindly select the service you are looking for
               </motion.h2>
@@ -355,7 +355,9 @@ const Home = () => {
               else if (hiddenFrame && !submitted) handleSubmit(e);
               else if (submitted) handleSubmitAnotherResponse();
             }}
-            className="relative 2xl:h-[70px] h-[53px] 2xl:w-auto w-[90vw] rounded-full flex justify-center items-center cursor-pointer px-8 overflow-hidden transition-all delay-1000 ease-in-out"
+              className={`relative 2xl:h-[70px] h-[53px] 2xl:w-auto w-[90vw] rounded-full flex justify-center items-center cursor-pointer px-8 overflow-hidden transition-all delay-1000 ease-in-out ${
+                !hiddenFrame && !submitted ? 'translate-y-[-20px]' : ''
+              }`}
           >
             <div
               className="absolute inset-0 blur-md rounded-full transition-all delay-1000 ease-in-out"
