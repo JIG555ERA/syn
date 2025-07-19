@@ -23,7 +23,7 @@ const Home = () => {
   const [validationError, setValidationError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const delayCycle = [9, 4, 2];
+  const delayCycle = [8, 4, 2];
   const [delayIndex, setDelayIndex] = useState(0);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -206,7 +206,7 @@ const Home = () => {
               transition={{ delay: 4, duration: 1, ease: 'easeInOut' }}
               className="2xl:text-[54px] text-[28px] font-['Geist'] font-semibold text-center 2xl:translate-y-[0px] translate-y-[70px]"
             >
-              All technological <span className="block sm:hidden" /> solutions 
+              All Technological <span className="block sm:hidden" /> Solutions 
             </motion.h2>
 
             <motion.h3
