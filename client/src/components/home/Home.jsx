@@ -387,7 +387,7 @@ const Home = () => {
               else if (hiddenFrame && !submitted) handleSubmit(e);
               else if (submitted) handleSubmitAnotherResponse();
             }}
-              className={`relative 2xl:h-[70px] h-[53px] 2xl:w-auto w-[90vw] rounded-full flex justify-center items-center cursor-pointer px-8 overflow-hidden transition-all delay-1000 ease-in-out ${
+              className={`relative 2xl:h-[70px] h-[53px] 2xl:w-auto w-[85vw] rounded-full flex justify-center items-center cursor-pointer px-8 overflow-hidden transition-all delay-1000 ease-in-out ${
                 !hiddenFrame && !submitted ? '2xl:translate-y-[0px] translate-y-[-10px]' : ''
               }`}
           >
